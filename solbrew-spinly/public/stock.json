@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "name": "kola",
+    "quantity": 2,
+    "color": "#1b9333",
+    "image": "/uploads/4e163927-2361-40a3-8156-87833648b7a2-Screenshot 2025-07-30 102118.png"
+  },
+  {
+    "id": 2,
+    "name": "Stranger",
+    "quantity": 7,
+    "color": "#b70606",
+    "image": "/uploads/8cb740aa-702b-48c3-a350-47c449395851-Screenshot 2025-07-30 101942.png"
+  },
+  {
+    "id": 3,
+    "name": "Whiskey",
+    "quantity": 6,
+    "color": "#177411",
+    "image": "/uploads/5db99419-69a4-48d2-babb-1647cd7b443b-Screenshot 2025-07-30 101812.png"
+  },
+  {
+    "id": 4,
+    "name": "Dream",
+    "quantity": 10,
+    "color": "#000000",
+    "image": "/uploads/35ffc259-7f8f-47d7-bebe-af1350827707-image-.png"
+  },
+  {
+    "id": 5,
+    "name": "T-shirt",
+    "quantity": 5,
+    "color": "#dd6969",
+    "image": "/uploads/04833b7a-5775-4573-9ed3-c6dc63ffe908-ic_unavailable.png"
+  }
+]
