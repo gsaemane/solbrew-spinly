@@ -86,7 +86,7 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
             label: itemLabel,
             backgroundColor: index % 2 === 0 ? '#000000' : '#EB1C24',
             image: imageElement,
-            imageRadius: 0.7,
+            imageRadius: 0.5,
             imageScale: 0.8,
             labelColor:index % 2 === 0 ? '#EB1C24' : '#000000'
           };
@@ -98,7 +98,7 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
 
         const wheel = new Wheel(wheelRef.current, {
           items: wheelItems,
-            itemLabelRadius:0.80,
+          itemLabelRadius:0.80,
           itemLabelRotation:95,
           imageRotation: 'item',
           itemLabelAlign:'center',
