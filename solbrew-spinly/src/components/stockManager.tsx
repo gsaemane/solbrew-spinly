@@ -71,10 +71,10 @@ const StockManager: React.FC = () => {
 
   return (
     <div className="mt-8">
-      <h2 className="text-3xl font-bold mb-4" style={{ fontFamily: 'Playfair Display' }}>
+      <h2 className="text-4xl font-bold mb-4 " style={{ fontFamily: 'Lato' }}>
         Manage Stock
       </h2>
-      <div className="mb-4 flex flex-col gap-2">
+      <div className="mb-4 flex flex-col gap-3 border-2 border-gray-600 p-4 rounded-3xl shadow-lg">
         <input
           type="text"
           placeholder="Item Name"
@@ -101,14 +101,22 @@ const StockManager: React.FC = () => {
           onChange={e => handleImageUpload(e.target.files?.[0] || null)}
           className="border-spot-red bg-[#1a1a1a] text-spot-gold p-2 rounded"
         />
-        {newItem.image && <img src={newItem.image} alt="Preview" className="w-20 h-20 object-cover mt-2 rounded-full border-2 border-spot-red" />}
-        <button onClick={addItem} className="bg-spot-red text-spot-gold p-2 rounded hover:bg-spot-gold hover:text-spot-black">
+        {newItem.image && 
+        
+        <img src={newItem.image} alt="Preview" className="w-20 h-20 object-cover mt-2 rounded-full border-2 border-spot-red" />}
+        
+        <button onClick={addItem} className=" text-spot-gold p-2 rounded hover:bg-spot-gold hover:text-spot-black lg:bg-red-600">
           Add Item
         </button>
       </div>
+      {/* item list */}
+      <div className="bg-gray-900 p-4 rounded-2xl">
       <ul>
         {items.map(item => (
-          <li key={item.id} className="mb-2 flex items-center gap-2 text-spot-gold">
+          <li key={item.id} className="mb-2 flex items-center gap-2 text-spot-gold border-b-2 border-b-amber-500">
+            <span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ed1c24" viewBox="0 0 256 256"><path d="M221.66,181.66l-48,48a8,8,0,0,1-11.32-11.32L196.69,184H72a8,8,0,0,1-8-8V32a8,8,0,0,1,16,0V168H196.69l-34.35-34.34a8,8,0,0,1,11.32-11.32l48,48A8,8,0,0,1,221.66,181.66Z"></path></svg>
+            </span>
             {item.image && <img src={item.image} alt={item.name} className="w-12 h-12 object-cover rounded-full border-2 border-spot-red" />}
             <span>{item.name} (Qty: {item.quantity})</span>
             <input
@@ -131,11 +139,13 @@ const StockManager: React.FC = () => {
               onClick={() => deleteItem(item.id)}
               className="bg-spot-red text-spot-gold p-1 rounded hover:bg-spot-gold hover:text-spot-black"
             >
-              Delete
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ed1c24" viewBox="0 0 256 256"><path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path></svg>
             </button>
           </li>
         ))}
       </ul>
+      </div>
+      
     </div>
   );
 };

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto+Condensed:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -20,9 +20,71 @@
     --foreground: #ededed;
   }
 }
+/* Fonts */
+
+.lato-thin {
+  font-family: "Lato", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.lato-light {
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.lato-regular {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.lato-bold {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.lato-black {
+  font-family: "Lato", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.lato-thin-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.lato-light-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.lato-regular-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.lato-bold-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.lato-black-italic {
+  font-family: "Lato", sans-serif;
+  font-weight: 900;
+  font-style: italic;
+}
+
 
 body {
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: 'Lato', sans-serif;
   background-color: var(--spot-black);
   color: var(--spot-gold);
   margin: 0;
@@ -34,6 +96,8 @@ main {
   margin: 0 auto;
   text-align: center;
   padding: 2rem;
+  width: 100%;
+
 }
 
 .wheel-page-container {
@@ -81,35 +145,8 @@ main {
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
-  top:0;
+  top:-5px;
   filter: drop-shadow(0 0 5px var(--spot-gold));
-}
-
-nav {
-  background: var(--spot-black);
-  border-bottom: 2px solid var(--spot-red);
-  padding: 1rem 0;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-}
-
-nav ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-}
-
-nav ul li a {
-  color: var(--spot-gold);
-  font-family: 'Playfair Display', serif;
-  font-size: 1.25rem;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-nav ul li a:hover {
-  color: var(--spot-red);
 }
 
 .modal {
@@ -128,19 +165,13 @@ nav ul li a:hover {
 }
 
 input, button {
-  font-family: 'Roboto Condensed', sans-serif;
-  border: 1px solid var(--spot-red);
-  background: #1a1a1a;
-  color: var(--spot-gold);
+  font-family: 'Lato', sans-serif;
+  border: 1px solid var(--color-red-500); 
   padding: 0.5rem;
   border-radius: 0.5rem;
   transition: all 0.3s ease;
 }
 
-button:hover {
-  background: var(--spot-gold);
-  color: var(--spot-black);
-}
 
 input:focus {
   outline: none;

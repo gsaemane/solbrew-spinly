@@ -10,15 +10,22 @@ declare module 'spin-wheel' {
       items: Array<{
         label: string;
         backgroundColor?: string;
-        image?: string;
+        image?:HTMLImageElement;
         imageRadius?: number;
         imageScale?: number;
       }>;
       radius?: number;
+      itemLabelRotation?: number,
+      itemLabelFontSizeMax?:number,
+      itemLabelAlign?:string,
       imageRotation?: 'none' | 'item' | 'wheel';
       textOrientation?: 'curved' | 'horizontal' | 'vertical';
       textAlignment?: 'center' | 'inner' | 'outer';
+      labelColor?:string;
       lineWidth?: number;
+      itemLabelRadius?:number;
+      borderColor?:string;
+      borderWidth?:number;
       lineColor?: string;
       isInteractive?: boolean;
       onRest?: (event: { currentIndex: number }) => void;
