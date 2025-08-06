@@ -3,11 +3,12 @@ import fs from 'fs';
 import path from 'path';
 
 export interface StockItem {
-  id: number;
+  id: string;
   name: string;
   quantity: number;
   color: string;
   image?: string;
+  isWinner: boolean;
 }
 
 const stockFilePath = path.join(process.cwd(), 'public', 'stock.json');

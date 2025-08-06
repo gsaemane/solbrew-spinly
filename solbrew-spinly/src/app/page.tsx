@@ -20,15 +20,30 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="">
+    <div className="w-full bg-[url(/map_motif.png)] bg-bottom bg-no-repeat"  >
+        <div className="p-2">
+        <Image
+            src="/logo.png"
+            width={200}
+            height={200}
+            alt='logo'
+            className="absolute top-8 left-5"
+        />
+
+        </div>
        
-      <main className="flex min-h-screen flex-col items-center p-8 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-900  to-black">
-      
-          <h1 className="text-4xl my-16 font-bold lato-bold">Whiskey Cola Draw</h1>
+      <main className="flex min-h-screen flex-col items-center p-8">
+          
+          <h1 className="text-4xl mt-12 mb-4 font-bold lato-bold">Spin the Wheel</h1>
          
           <SpinningWheel items={items} />
         
       </main>
+      {/* Sponsor */}
+      <div className="text-gray-300 rounded-t-lg text-base z-10 float-right -mt-10 mr-8 p-2 bg-gray-800 border border-gray-400 ">
+        Proudly sponsored by Solbrew
+
+      </div>
 
     </div>
     

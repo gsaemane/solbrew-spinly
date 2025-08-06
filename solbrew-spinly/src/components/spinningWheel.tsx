@@ -13,6 +13,7 @@ interface SpinningWheelProps {
 const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
   const wheelRef = useRef<HTMLDivElement>(null);
   const [winner, setWinner] = useState<string | null>(null);
+  const [isSpecialItem, setIsSpecialItem] = useState(false);
   const [wheelInstance, setWheelInstance] = useState<WheelInstance | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,7 +24,7 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
   // Initialize Howler sounds
   const spinSound = new Howl({
     src: ['/sounds/spin.mp3'], // 2-5s looping spin sound
-    loop: true,
+    loop: false,
     volume: 0.5,
     preload: true,
   });
@@ -109,6 +110,8 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
           borderWidth:4,
           lineColor: '#ffffff', // Spot Gold
           isInteractive: true,
+          rotationResistance: -100,
+          rotationSpeedMax: 1000,
           onCurrentIndexChange: () => {
             if (!isButtonSpinning && !spinSound.playing()) {
               spinSound.play();
@@ -122,7 +125,22 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
             setShowConfetti(true); // Start confetti when modal opens
             const winningIndex = event.currentIndex;
             setWinner(items[winningIndex].name);
-            setIsModalOpen(true);
+            
+
+            if (!items[winningIndex].isWinner) {
+              setIsSpecialItem(true);
+              setIsModalOpen(true);
+              setShowConfetti(false);
+              setIsCloseButtonEnabled(false);
+            } else {
+              setIsSpecialItem(false);
+              winSound.play();
+              setShowConfetti(true);
+              setIsModalOpen(true);
+              setTimeout(() => {
+                setShowConfetti(false);
+              }, 3000);
+            }
 
             
           },
@@ -150,7 +168,9 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
       setIsModalOpen(false);
       setIsButtonSpinning(true);
       spinSound.play();
-      wheelInstance.spin();
+      const randomIndex = Math.floor(Math.random() * items.length);
+      wheelInstance.spinToItem(randomIndex, 3000, true, 3, 1);
+      
     }
   };
   const reset = () => {
@@ -162,6 +182,7 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
       setWinner(null);
       setIsCloseButtonEnabled(false);
       setShowConfetti(false); // Stop confetti when modal closes
+      setIsSpecialItem(false);
     }
   };
 
@@ -186,18 +207,45 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
             </svg>
             
           </div>
-          <button
-            onClick={reset}
-            disabled={!wheelInstance}
-            className={`mt-4 bg-red-500 text-red-200 p-4 rounded-md hover:opacity-60 hover:cursor-pointer ${!wheelInstance ? 'opacity-50' : ''}`}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ffc9c9" className="inline mr-2" viewBox="0 0 256 256"><path d="M240,56v48a8,8,0,0,1-8,8H184a8,8,0,0,1,0-16H211.4L184.81,71.64l-.25-.24a80,80,0,1,0-1.67,114.78,8,8,0,0,1,11,11.63A95.44,95.44,0,0,1,128,224h-1.32A96,96,0,1,1,195.75,60L224,85.8V56a8,8,0,1,1,16,0Z"></path></svg>
-            Refresh
-          </button>
+          {/* Button Row */}
+          <div className='space-x-4 inline'>
+
+            {/* Spin Button */}
+            <button
+              onClick={spin}
+              disabled={!wheelInstance}
+              className={`mt-4 bg-[#D5AE60] text-white text-lg p-4 rounded-md hover:opacity-60 hover:cursor-pointer ${!wheelInstance ? 'opacity-50' : ''}`}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="inline mr-1" fill="#ffffff" viewBox="0 0 256 256"><path d="M240,144H208a80,80,0,0,1-80,80,88,88,0,0,1-88-88,96,96,0,0,1,96-96A104,104,0,0,1,240,144Z" opacity="0.2"></path><path d="M248,144a8,8,0,0,1-16,0,96.11,96.11,0,0,0-96-96,88.1,88.1,0,0,0-88,88,80.09,80.09,0,0,0,80,80,72.08,72.08,0,0,0,72-72,64.07,64.07,0,0,0-64-64,56.06,56.06,0,0,0-56,56,48.05,48.05,0,0,0,48,48,40,40,0,0,0,40-40,32,32,0,0,0-32-32,24,24,0,0,0-24,24,16,16,0,0,0,16,16,8,8,0,0,0,8-8,8,8,0,0,1,0-16,16,16,0,0,1,16,16,24,24,0,0,1-24,24,32,32,0,0,1-32-32,40,40,0,0,1,40-40,48.05,48.05,0,0,1,48,48,56.06,56.06,0,0,1-56,56,64.07,64.07,0,0,1-64-64,72.08,72.08,0,0,1,72-72,80.09,80.09,0,0,1,80,80,88.1,88.1,0,0,1-88,88,96.11,96.11,0,0,1-96-96A104.11,104.11,0,0,1,136,32,112.12,112.12,0,0,1,248,144Z"></path></svg>
+              Spinim Wheel Ya man!
+            </button>
+          
+            {/* Reset Button */}
+            <button
+              onClick={reset}
+              disabled={!wheelInstance}
+              className={`mt-4 bg-red-500 text-red-200 text-lg p-4 rounded-md hover:opacity-60 hover:cursor-pointer ${!wheelInstance ? 'opacity-50' : ''}`}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ffc9c9" className="inline mr-2" viewBox="0 0 256 256"><path d="M240,56v48a8,8,0,0,1-8,8H184a8,8,0,0,1,0-16H211.4L184.81,71.64l-.25-.24a80,80,0,1,0-1.67,114.78,8,8,0,0,1,11,11.63A95.44,95.44,0,0,1,128,224h-1.32A96,96,0,1,1,195.75,60L224,85.8V56a8,8,0,1,1,16,0Z"></path></svg>
+              Refresh
+            </button>
+          
+
+          
+            
+          
+            
+
+            
+
+
+
+          </div>
+          
 
           {isModalOpen && winner && (
             
-            <div className="fixed inset-0 bg-spot-black bg-opacity-75 flex items-center justify-center z-50">
+            <div className="fixed inset-0  modal-overlay bg-spot-black bg-opacity-75 flex items-center justify-center z-50">
 
                 {showConfetti && (
                     <Confetti
@@ -210,10 +258,11 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
                     />
                 )}
 
-              <div className="modal p-6 max-w-sm w-full text-center">
-                <h2 className="text-4xl font-bold mb-4" style={{ fontFamily: 'Playfair Display' }}>
-                  Winner!
+              <div className="modal p-6 max-w-sm w-full text-center" style={{ fontFamily: 'Lato' }}>
+                <h2 className="text-3xl font-bold mb-4" >
+                    {isSpecialItem ? 'Too Bad Spin Again!' : 'Winner!'}
                 </h2>
+                you got
                 <p className="text-2xl mb-4">{winner}</p>
                 {/* Winner image */}
                 {items.find((item) => item.name === winner)?.image && (
@@ -226,7 +275,9 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
                 )}
                 {/* Winner qty */}
                 {items.find((item) => item.name === winner)?.quantity && (
-                  <p className="text-xl py-4">You get {items.find((item) => item.name === winner)?.quantity} cans</p>
+                  <p className="text-xl py-4">
+                    {isSpecialItem ? 'Sorry try your luck next time' : `You get ${items.find((item) => item.name === winner)?.quantity} cans`}
+                    </p>
                   
                 )}
 
@@ -234,11 +285,11 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
                 <button
                   onClick={closeModal}
                   disabled={!isCloseButtonEnabled}
-                  className={`bg-red-500 text-red-50 p-2 rounded hover:bg-spot-gold hover:text-spot-black ${
+                  className={`bg-red-500 text-red-50 p-2 rounded hover:bg-spot-gold hover:text-spot-black hover:cursor-pointer ${
                     !isCloseButtonEnabled ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                 >
-                  Close
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fef2f2" className="inline mr-1" viewBox="0 0 256 256"><path d="M224,128a96,96,0,1,1-96-96A96,96,0,0,1,224,128Z" opacity="0.2"></path><path d="M165.66,101.66,139.31,128l26.35,26.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path></svg> Close
                 </button>
                 
               </div>

@@ -1,30 +1,42 @@
 [
   {
-    "id": 2,
-    "name": "Canoe Blue Lager",
-    "quantity": 10,
-    "color": "#baf2fd",
-    "image": "/uploads/1815cc13-5c0b-40ee-9802-3e9f31a4928a-1034737-3936394905.png"
+    "id": "5bb8732e-bd33-4c6c-a120-83b0ed01e53e",
+    "name": "Canoe Blue ",
+    "quantity": 7,
+    "color": "#D5AE60",
+    "image": "/uploads/4b02061c-2a78-4a5c-b9c9-a66ae7d6b8a6-1034737-3936394905.png",
+    "isWinner": true
   },
   {
-    "id": 2,
-    "name": "SB Can",
-    "quantity": 5,
-    "color": "#edcd8c",
-    "image": "/uploads/6fe02610-62c7-4b0b-b467-5e7153df8819-1034739-500x500-2442493146.png"
-  },
-  {
-    "id": 3,
+    "id": "38db9c6a-077a-4143-ad77-69379ccc80fb",
     "name": "Solbrew Can",
-    "quantity": 3,
-    "color": "#62d58a",
-    "image": "/uploads/27f1d8f0-5c43-48de-836e-548706cff78b-1039853-768x768-1-3312765250.png"
+    "image": "/uploads/0687d9d3-4a16-4854-bf08-ab1b0256758e-1039853-768x768-1-3312765250.png",
+    "quantity": 4,
+    "color": "#000000",
+    "isWinner": true
   },
   {
-    "id": 4,
-    "name": "Solbrew Bottle",
-    "quantity": 6,
-    "color": "#6ad562",
-    "image": "/uploads/7a627528-3a53-46da-9dca-560a5e0cc9cd-3543_Solbrew_Image_1-2464985534.jpg"
+    "id": "9f12ec48-8fe1-45ae-a3b9-446e87264712",
+    "name": "SB Can",
+    "image": "/uploads/e05f1f73-f3d5-4cf3-a286-cdcfa25a2a68-1034739-500x500-2442493146.png",
+    "quantity": 5,
+    "color": "#000000",
+    "isWinner": true
+  },
+  {
+    "id": "204b3b03-9099-42e7-9a48-102a3bbcfcd2",
+    "name": "Double Spin",
+    "image": "/uploads/a3c413e2-4b5d-468f-bdf5-3bf6994b8390-Screenshot 2025-07-30 102118.png",
+    "quantity": 0,
+    "color": "#000000",
+    "isWinner": false
+  },
+  {
+    "id": "a8fec7cd-d74f-489a-b452-416500b71f45",
+    "name": "Bad Luck",
+    "image": "/uploads/a8274a51-00b1-428e-8605-bb9d8d11b937-1034739-500x500-2442493146.png",
+    "quantity": 0,
+    "color": "#000000",
+    "isWinner": false
   }
 ]

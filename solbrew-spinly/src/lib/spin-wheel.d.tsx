@@ -28,6 +28,8 @@ declare module 'spin-wheel' {
       borderWidth?:number;
       lineColor?: string;
       isInteractive?: boolean;
+      rotationResistance?: number,
+      rotationSpeedMax?: number
       onRest?: (event: { currentIndex: number }) => void;
       onCurrentIndexChange?: () => void;
     }): WheelInstance;
