@@ -15,7 +15,7 @@
     "react-confetti": "^6.4.0",
     "react-dom": "19.1.0",
     "spin-wheel": "^5.0.2",
-    "uuid":"4"
+    "uuid":"11.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
