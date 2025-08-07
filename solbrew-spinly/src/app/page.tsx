@@ -9,42 +9,39 @@ export default function Home() {
   const [items, setItems] = useState<StockItem[]>([]);
 
   useEffect(() => {
-    const fetchItems = async () => {
-      const response = await fetch('/api/stock');
-      if (response.ok) {
-        const stock = await response.json();
-        setItems(stock);
-      }
-    };
-    fetchItems();
+    fetch('/stock.json')
+      .then((res) => res.json())
+      .then((data: StockItem[]) => {
+        console.log('Items loaded for wheel:', data); // Log to verify non-winners
+        setItems(data);
+      })
+      .catch((err) => console.error('Failed to load stock:', err));
   }, []);
 
   return (
-    <div className="w-full bg-[url(/map_motif.png)] bg-bottom bg-no-repeat"  >
+    <div className="w-full bg-[url(/map_motif.png)] bg-bottom bg-no-repeat min-h-screen"  >
         <div className="p-2">
         <Image
             src="/logo.png"
             width={200}
             height={200}
             alt='logo'
-            className="absolute top-8 left-5"
+            className="fade-in-normal absolute top-8 left-5"
         />
 
         </div>
        
-      <main className="flex min-h-screen flex-col items-center p-8">
-          
-          <h1 className="text-4xl mt-12 mb-4 font-bold lato-bold">Spin the Wheel</h1>
-         
-          <SpinningWheel items={items} />
-        
-      </main>
-      {/* Sponsor */}
-      <div className="text-gray-300 rounded-t-lg text-base z-10 float-right -mt-10 mr-8 p-2 bg-gray-800 border border-gray-400 ">
-        Proudly sponsored by Solbrew
+        <main className="flex  flex-col items-center p-8">
 
-      </div>
+            <h1 className="fade-in-normal text-4xl mt-12 mb-4 font-bold lato-bold">Spin the Wheel</h1>
+            <SpinningWheel items={items} />
 
+        </main>
+      
+        {/* Sponsor */}
+        <div className="text-gray-300 rounded-tl-lg text-base z-10 absolute bottom-0 right-0 p-2 bg-gray-800 border border-gray-400 ">
+          Proudly sponsored by Solbrew
+        </div>
     </div>
     
   );

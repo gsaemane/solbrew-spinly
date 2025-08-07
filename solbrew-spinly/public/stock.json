@@ -14,5 +14,21 @@
     "quantity": 5,
     "color": "#000000",
     "isWinner": true
+  },
+  {
+    "id": "5cbee9bf-57a6-411a-9d24-60856a17978a",
+    "name": "Try again",
+    "image": "/uploads/e91fda0c-3f93-42ad-8a5d-b9bf6fb0fae5-example-5-item-0.svg",
+    "color": "#000000",
+    "isWinner": false,
+    "quantity": 0
+  },
+  {
+    "id": "97596be7-e773-40d3-b019-d598827cf267",
+    "name": "2 x Whisky & Cola Can",
+    "image": "/uploads/e6e44c44-632e-4e57-9262-c7e6dddb7188-2xwhisky-cola-can.png",
+    "color": "#000000",
+    "isWinner": true,
+    "quantity": 2
   }
 ]

@@ -27,13 +27,18 @@ export async function GET() {
 }
 
 // POST: Update stock items
+
 export async function POST(request: NextRequest) {
   try {
-    const items: StockItem[] = await request.json();
-    fs.writeFileSync(stockFilePath, JSON.stringify(items, null, 2));
-    return NextResponse.json({ message: 'Stock updated' });
+    const items = await request.json();
+    const ids = items.map((item: any) => item.id);
+    const duplicates = ids.filter((id: string, index: number) => ids.indexOf(id) !== index);
+    if (duplicates.length > 0) {
+      return NextResponse.json({ error: 'Duplicate IDs detected: ' + duplicates.join(', ') }, { status: 400 });
+    }
+    await fs.writeFileSync(stockFilePath, JSON.stringify(items, null, 2));
+    return NextResponse.json({ message: 'Stock updated' }, { status: 200 });
   } catch (error) {
-    console.error('Error updating stock:', error);
-    return NextResponse.json({ error: 'Failed to update stock' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to save stock: ' + (error as Error).message }, { status: 500 });
   }
 }

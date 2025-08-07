@@ -1,8 +1,17 @@
 declare module 'spin-wheel' {
   export interface WheelInstance {
     spin(): void;
-    destroy(): void;
+    remove(): void;
     spinToItem(itemIndex: number, duration: number, spinToCenter: boolean, numberOfRevolutions: number, direction: 1 | -1, easingFunction?: (n: number) => number): void;
+    draw(): void;
+    resize():void;
+    items: Array<{
+      label: string;
+      backgroundColor?: string;
+      image?:HTMLImageElement;
+      imageRadius?: number;
+      imageScale?: number;
+    }>;
   }
 
   export const Wheel: {
@@ -15,6 +24,8 @@ declare module 'spin-wheel' {
         imageScale?: number;
       }>;
       radius?: number;
+      itemLabelStrokeColor?: string,
+      itemLabelStrokeWidth?:  number,
       itemLabelRotation?: number,
       itemLabelFontSizeMax?:number,
       itemLabelAlign?:string,
