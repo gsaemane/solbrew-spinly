@@ -112,7 +112,7 @@ const StockManager: React.FC = () => {
         Manage Wheel Items
       </h2>
       <div className="mb-4 flex flex-col gap-3 p-4 rounded-3xl shadow-lg">
-        <div className="grid grid-cols-2 w-full gap-2">
+        <div className="grid grid-cols-1 w-full gap-2">
             {/* Input name */}
         <div className="flex flex-col text-left border-2 border-spot-gold bg-[#000000] rounded p-2">
             <label className="pl-2 font-semibold">
@@ -130,7 +130,7 @@ const StockManager: React.FC = () => {
         </div>
 
         {/* Input QTY */}
-        <div className="flex flex-col text-left border-2 border-spot-gold bg-[#000000] rounded p-2">
+        {/* <div className="flex flex-col text-left border-2 border-spot-gold bg-[#000000] rounded p-2">
             <label className="pl-2 font-semibold">
             
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="inline mr-1" fill="#d5ae60" viewBox="0 0 256 256">
@@ -145,7 +145,7 @@ const StockManager: React.FC = () => {
               onChange={e => setNewItem({ ...newItem, quantity: parseInt(e.target.value) || 0 })}
               className="border-spot-red text-spot-gold p-2 rounded"
             />
-        </div>
+        </div> */}
 
       </div>
       {/* Row end */}
@@ -223,7 +223,7 @@ const StockManager: React.FC = () => {
             }
             <span className="w-full text-left">
               <p className="font-bold text-red-500 text-lg">{item.name}</p> 
-              <span className="p-1 mr-4 text-left w-auto bg-amber-100 text-xs text-amber-800 rounded font-bold">Quantity: {item.quantity}</span>
+              {/* <span className="p-1 mr-4 text-left w-auto bg-amber-100 text-xs text-amber-800 rounded font-bold">Quantity: {item.quantity}</span> */}
               <span className='mt-2 text-left p-1 bg-green-100 text-green-800 rounded text-xs font-bold'>Set to win: {item.isWinner? 'YES' : 'NO'}</span>
             </span>
             <button

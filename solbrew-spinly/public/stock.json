@@ -1,23 +1,23 @@
 [
   {
     "id": "38db9c6a-077a-4143-ad77-69379ccc80fb",
-    "name": "Solbrew Can",
-    "image": "/uploads/0687d9d3-4a16-4854-bf08-ab1b0256758e-1039853-768x768-1-3312765250.png",
+    "name": "Whisky & Cola Can",
+    "image": "/uploads/e305c8cb-909d-49db-84bc-1da253480733-1xwhisky-outline.png",
     "quantity": 4,
     "color": "#000000",
     "isWinner": true
   },
   {
     "id": "9f12ec48-8fe1-45ae-a3b9-446e87264712",
-    "name": "SB Can",
-    "image": "/uploads/e05f1f73-f3d5-4cf3-a286-cdcfa25a2a68-1034739-500x500-2442493146.png",
+    "name": "2 x Whisky & Cola Can",
+    "image": "/uploads/f912bc09-d1c5-4fba-9ccd-d580c0a54573-2xwhisky-outline.png",
     "quantity": 5,
     "color": "#000000",
     "isWinner": true
   },
   {
     "id": "5cbee9bf-57a6-411a-9d24-60856a17978a",
-    "name": "Try again",
+    "name": "Unlucky",
     "image": "/uploads/e91fda0c-3f93-42ad-8a5d-b9bf6fb0fae5-example-5-item-0.svg",
     "color": "#000000",
     "isWinner": false,
@@ -25,10 +25,26 @@
   },
   {
     "id": "97596be7-e773-40d3-b019-d598827cf267",
-    "name": "2 x Whisky & Cola Can",
-    "image": "/uploads/e6e44c44-632e-4e57-9262-c7e6dddb7188-2xwhisky-cola-can.png",
+    "name": "Whisky & Cola Can",
+    "image": "/uploads/1f160f3b-ebda-4da5-96e9-c88437f676e1-1xwhisky-outline.png",
     "color": "#000000",
     "isWinner": true,
     "quantity": 2
+  },
+  {
+    "id": "beecd58f-2a59-4941-9633-47e226ce1315",
+    "name": "2 x Whisky Cola Can",
+    "image": "/uploads/ed91f44f-f8ab-4f78-ab0f-a04b5639953c-2xwhisky-outline.png",
+    "color": "#000000",
+    "isWinner": true,
+    "quantity": 0
+  },
+  {
+    "id": "2b5567bd-3a74-4330-9459-b01b9e64edc4",
+    "name": "Try again",
+    "image": "/uploads/deedfe8e-6765-4d8f-b464-6b6e3367b38c-example-5-item-4.svg",
+    "color": "#000000",
+    "isWinner": false,
+    "quantity": 0
   }
 ]

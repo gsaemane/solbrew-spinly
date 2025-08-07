@@ -38,6 +38,17 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
       setIsCloseButtonEnabled(true);
     },
   });
+
+  const defeatSound = new Howl({
+    src: ['/sounds/defeat.mp3'],
+    volume: 0.7,
+    preload: true,
+    onend: () => {
+      setIsCloseButtonEnabled(true);
+    },
+  });
+
+
   // Preload Images
   useEffect(() => {
     if (items.length === 0) {
@@ -90,15 +101,6 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
           return;
         }
 
-        // Log all items to verify inclusion
-        console.log('All items received:', items.map(item => ({
-          id: item.id,
-          name: item.name,
-          isWinner: item.isWinner,
-          quantity: item.quantity,
-          image: item.image,
-        })));
-
         const wheelItems = items.map((item, index) => {
           let imageElement: HTMLImageElement | undefined;
           if (item.image) {
@@ -147,14 +149,20 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
             const winningIndex = event.currentIndex;
             setWinner(items[winningIndex].name);
             setIsButtonSpinning(false);
+            const selectedItem = items[winningIndex];
+            // Log spin
+            logSpin(selectedItem);
 
             if (!items[winningIndex].isWinner) {
+              
+              defeatSound.play();
               setIsSpecialItem(true);
               setIsModalOpen(true);
               setShowConfetti(false);
               setIsCloseButtonEnabled(true); // Enable Close for non-winners
             } else {
               setIsSpecialItem(false);
+             
               winSound.play();
               setShowConfetti(true);
               setIsModalOpen(true);
@@ -171,6 +179,7 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
           wheel.remove();
           spinSound.stop();
           winSound.stop();
+          defeatSound.stop();
         };
       } catch (err) {
         console.error('Wheel initialization failed:', err);
@@ -253,14 +262,16 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
       setIsModalOpen(false);
       setIsButtonSpinning(true);
       spinSound.play();
-      //Pure Randomness
+      //Mad Randomness
       const randomIndex = Math.floor(Math.random() * items.length);
       wheelInstance.spinToItem(randomIndex, 3000, true, 3, 1);
     }
   };
 
   const reset = () => {
-    window.location.reload();
+    if (confirm('Reset the wheel? This will refresh the page.')) {
+      window.location.reload();
+    }
   };
 
   const closeModal = () => {
@@ -270,6 +281,28 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
       setIsCloseButtonEnabled(false);
       setShowConfetti(false);
       setIsSpecialItem(false);
+    }
+  };
+
+  // Log spin to API
+  const logSpin = async (item: StockItem) => {
+    try {
+      const response = await fetch('/api/logs/write', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          timestamp: new Date().toISOString(),
+          itemId: item.id,
+          itemName: item.name,
+          isWinner: item.isWinner,
+          quantity: item.quantity,
+        }),
+      });
+      if (!response.ok) {
+        console.error('Failed to log spin:', response.statusText);
+      }
+    } catch (err) {
+      console.error('Error logging spin:', err);
     }
   };
 
@@ -327,7 +360,7 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
                 ></path>
                 <path d="M248,144a8,8,0,0,1-16,0,96.11,96.11,0,0,0-96-96,88.1,88.1,0,0,0-88,88,80.09,80.09,0,0,0,80,80,72.08,72.08,0,0,0,72-72,64.07,64.07,0,0,0-64-64,56.06,56.06,0,0,0-56,56,48.05,48.05,0,0,0,48,48,40,40,0,0,0,40-40,32,32,0,0,0-32-32,24,24,0,0,0-24,24,16,16,0,0,0,16,16,8,8,0,0,0,8-8,8,8,0,0,1,0-16,16,16,0,0,1,16,16,24,24,0,0,1-24,24,32,32,0,0,1-32-32,40,40,0,0,1,40-40,48.05,48.05,0,0,1,48,48,56.06,56.06,0,0,1-56,56,64.07,64.07,0,0,1-64-64,72.08,72.08,0,0,1,72-72,80.09,80.09,0,0,1,80,80,88.1,88.1,0,0,1-88,88,96.11,96.11,0,0,1-96-96A104.11,104.11,0,0,1,136,32,112.12,112.12,0,0,1,248,144Z"></path>
               </svg>
-              Spinim wheel ya man!
+              Spin to Win
             </button>
 
             {/* Reset Button */}
@@ -367,12 +400,19 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
                   run={showConfetti}
                 />
               )}
-
+  
               <div className="modal p-6  w-1/2 text-center" style={{ fontFamily: 'Lato' }}>
+              <h2 className="text-3xl font-bold mb-4 bg-red-500 w-3/4 m-auto -mt-12 p-3 text-white rounded border-2 border-red-600">{isSpecialItem ? 'Too Bad!' : 'Winner!'}</h2>
                 
-                <h2 className="text-3xl font-bold mb-4">{isSpecialItem ? 'Too Bad!' : 'Winner!'}</h2>
-                You got {isSpecialItem ? 'Nothing!' : ''}
-                <p className="text-6xl font-outline-2 mb-4">{winner}</p>
+                
+                <span className="py-2">You got {isSpecialItem ? 'Nothing!' : ''}</span>
+
+                {isSpecialItem?
+                  <p className="text-6xl  text-red-600  mb-4">{winner}</p>
+                  :
+                  <p className="text-6xl font-bold  text-amber-600  mb-4">{winner}</p>
+                }
+                
                 {/* Winner image */}
                 {items.find((item) => item.name === winner)?.image && (
                   <img
@@ -381,13 +421,14 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
                     className="w-32 h-32 object-cover mx-auto mb-4 rounded-full border-2 border-spot-red"
                   />
                 )}
-                {/* Winner qty */}
+                {/* Winner qty
                 {items.find((item) => item.name === winner)?.quantity && (
                   <p className="text-xl py-4">
                     {isSpecialItem? 'Sorry try your luck next time' : ''}
                   </p>
-                )}
-
+                  
+                )} */}
+                {/* Close Modal Button */}
                 <button
                   onClick={closeModal}
                   disabled={!isCloseButtonEnabled}
