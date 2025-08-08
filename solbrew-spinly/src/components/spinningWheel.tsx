@@ -192,7 +192,7 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
         isImagesLoaded,
       });
     }
-  }, [items, isImagesLoaded, spinSound,winSound,defeatSound]);
+  }, [items, isImagesLoaded, spinSound,winSound,defeatSound, isButtonSpinning]);
 
   // Force redraw after wheelInstance is set
   useEffect(() => {
