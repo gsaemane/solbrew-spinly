@@ -7,19 +7,27 @@ import Image from 'next/image';
 
 export default function Home() {
   const [items, setItems] = useState<StockItem[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/stock.json')
-      .then((res) => res.json())
+    fetch('/api/stock')
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to fetch stock');
+        return res.json();
+      })
       .then((data: StockItem[]) => {
-        console.log('Items loaded for wheel:', data); // Log to verify non-winners
+        console.log('Items loaded for wheel:', data);
         setItems(data);
       })
-      .catch((err) => console.error('Failed to load stock:', err));
+      .catch((err) => {
+        console.error('Failed to load stock:', err);
+        setError('Failed to load stock items');
+      });
   }, []);
 
   return (
     <div className="w-full bg-[url(/map_motif.png)] bg-bottom bg-no-repeat min-h-screen"  >
+      {error && <p className="text-red-500 p-4">{error}</p>}
         <div className="p-2">
        {/* Main Logo */}
         <Image

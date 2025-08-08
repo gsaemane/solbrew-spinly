@@ -56,11 +56,11 @@ function downloadLogs(logs: LogEntry[]) {
   }
 
 // Clear logs with confirmation
-const clearLogs = () => {
-    if (window.confirm('Are you sure you want to clear all logs? This action cannot be undone.')) {
-      setLogs([]);
-    }
-};
+// const clearLogs = () => {
+//     if (window.confirm('Are you sure you want to clear all logs? This action cannot be undone.')) {
+//       setLogs([]);
+//     }
+// };
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
@@ -94,14 +94,7 @@ const clearLogs = () => {
                   Download Logs
                 </button>
 
-                {/* Clear logs */}
-                <button
-                    onClick={clearLogs}
-                    className="mb-4 px-4 py-2 bg-red-100  rounded-md hover:bg-red-600 hover:cursor-pointer text-red-600 hover:text-white"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ED4040" className="inline mr-1" viewBox="0 0 256 256"><path d="M200,56V208a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V56Z" opacity="0.2"></path><path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path></svg>
-                    Clear Logs
-                </button>
+                
 
             </div>
             

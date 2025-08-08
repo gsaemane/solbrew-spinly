@@ -11,9 +11,9 @@ const StockManager: React.FC = () => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch stock items
+  // Fetch stock items - change from /stock/json to api/stock
   useEffect(() => {
-    fetch('/stock.json')
+    fetch('/api/stock')
       .then((res) => res.json())
       .then((data: StockItem[]) => {
         const ids = data.map(item => item.id);

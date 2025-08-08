@@ -7,9 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
-
   },
   "dependencies": {
+    "@netlify/blobs": "^10.0.8",
     "animate.css": "^4.1.1",
     "howler": "^2.2.4",
     "next": "15.4.5",

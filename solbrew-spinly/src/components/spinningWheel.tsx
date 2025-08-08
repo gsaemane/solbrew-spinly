@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo  } from 'react';
 import { Wheel, WheelInstance } from 'spin-wheel';
 import { Howl } from 'howler';
 import Confetti from 'react-confetti';
@@ -23,35 +23,51 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [isImagesLoaded, setIsImagesLoaded] = useState(false);
 
-  const spinSound = new Howl({
-    src: ['/sounds/spin.mp3'],
-    loop: false,
-    volume: 0.5,
-    preload: true,
-  });
+  // Memoize Howl instances
+  const spinSound = useMemo(
+    () =>
+      new Howl({
+        src: ['/sounds/spin.mp3'],
+        loop: false,
+        volume: 0.5,
+        preload: true,
+      }),
+    []
+  );
 
-  const winSound = new Howl({
-    src: ['/sounds/win.mp3'],
-    volume: 0.7,
-    preload: true,
-    onend: () => {
-      setIsCloseButtonEnabled(true);
-    },
-  });
+  const winSound = useMemo(
+    () =>
+      new Howl({
+        src: ['/sounds/win.mp3'],
+        volume: 0.7,
+        preload: true,
+        onend: () => {
+          setIsCloseButtonEnabled(true);
+        },
+      }),
+    []
+  );
 
-  const defeatSound = new Howl({
-    src: ['/sounds/defeat.mp3'],
-    volume: 0.7,
-    preload: true,
-    onend: () => {
-      setIsCloseButtonEnabled(true);
-    },
-  });
+  const defeatSound = useMemo(
+    () =>
+      new Howl({
+        src: ['/sounds/defeat.mp3'],
+        volume: 0.7,
+        preload: true,
+        onend: () => {
+          setIsCloseButtonEnabled(true);
+        },
+      }),
+    []
+  );
 
 
+  
   // Preload Images
   useEffect(() => {
+    console.log('Preload useEffect triggered, items:', items);
     if (items.length === 0) {
+      console.log('No items, setting isImagesLoaded to true');
       setIsImagesLoaded(true);
       return;
     }
@@ -60,28 +76,29 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
       try {
         const imagePromises = items
           .filter((item) => item.image)
-          .map((item) =>
-            new Promise<void>((resolve, reject) => {
-              const img = new Image();
-              img.src = item.image!;
-              img.onload = () => {
-                console.log(`Image preloaded: ${item.image}`);
-                resolve();
-              };
-              img.onerror = () => {
-                console.error(`Failed to preload image: ${item.image}`);
-                reject(new Error(`Failed to preload image: ${item.image}`));
-              };
-            })
+          .map(
+            (item) =>
+              new Promise<void>((resolve) => {
+                const img = new Image();
+                img.src = item.image!;
+                img.onload = () => {
+                  console.log(`Image loaded: ${item.image}`);
+                  resolve();
+                };
+                img.onerror = () => {
+                  console.warn(`Failed to preload image: ${item.image}, proceeding`);
+                  resolve(); // Continue even if an image fails
+                };
+              })
           );
 
         await Promise.all(imagePromises);
-        console.log('All images preloaded successfully');
+        console.log('All images preloaded or failed, setting isImagesLoaded to true');
         setIsImagesLoaded(true);
       } catch (err) {
-        console.error('Image preloading failed:', err);
-        setError('Failed to preload images: ' + (err as Error).message);
-        setIsImagesLoaded(true); // Proceed even if some images fail
+        console.error('Image preloading error:', err);
+        setError('Some images failed to load, but proceeding');
+        setIsImagesLoaded(true);
       }
     };
 
@@ -154,7 +171,6 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
             logSpin(selectedItem);
 
             if (!items[winningIndex].isWinner) {
-              
               defeatSound.play();
               setIsSpecialItem(true);
               setIsModalOpen(true);
@@ -162,7 +178,6 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
               setIsCloseButtonEnabled(true); // Enable Close for non-winners
             } else {
               setIsSpecialItem(false);
-             
               winSound.play();
               setShowConfetti(true);
               setIsModalOpen(true);
@@ -262,7 +277,6 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
       setIsModalOpen(false);
       setIsButtonSpinning(true);
       spinSound.play();
-      //Mad Randomness
       const randomIndex = Math.floor(Math.random() * items.length);
       wheelInstance.spinToItem(randomIndex, 3000, true, 3, 1);
     }
