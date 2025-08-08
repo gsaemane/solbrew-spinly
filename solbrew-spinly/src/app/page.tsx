@@ -21,12 +21,24 @@ export default function Home() {
   return (
     <div className="w-full bg-[url(/map_motif.png)] bg-bottom bg-no-repeat min-h-screen"  >
         <div className="p-2">
+       {/* Main Logo */}
         <Image
             src="/logo.png"
             width={200}
             height={200}
             alt='logo'
             className="fade-in-normal absolute top-8 left-5"
+        />
+
+        </div>
+        {/* Crafted by logo */}
+        <div>
+        <Image
+            src="/crafted_by_logo.jpeg"
+            width={200}
+            height={200}
+            alt='logo'
+            className="fade-in-normal absolute top-5 right-5"
         />
 
         </div>

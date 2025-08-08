@@ -5,5 +5,152 @@
     "itemName": "Whisky & Cola Can",
     "isWinner": true,
     "quantity": 4
+  },
+  {
+    "timestamp": "2025-08-07T22:54:52.598Z",
+    "itemId": "9f12ec48-8fe1-45ae-a3b9-446e87264712",
+    "itemName": "2 x Whisky & Cola Can",
+    "isWinner": true,
+    "quantity": 5
+  },
+  {
+    "timestamp": "2025-08-08T02:04:57.894Z",
+    "itemId": "beecd58f-2a59-4941-9633-47e226ce1315",
+    "itemName": "2 x Whisky Cola Can",
+    "isWinner": true,
+    "quantity": 0
+  },
+  {
+    "timestamp": "2025-08-08T02:05:28.367Z",
+    "itemId": "38db9c6a-077a-4143-ad77-69379ccc80fb",
+    "itemName": "Whisky & Cola Can",
+    "isWinner": true,
+    "quantity": 4
+  },
+  {
+    "timestamp": "2025-08-08T02:05:34.227Z",
+    "itemId": "2b5567bd-3a74-4330-9459-b01b9e64edc4",
+    "itemName": "Try again",
+    "isWinner": false,
+    "quantity": 0
+  },
+  {
+    "timestamp": "2025-08-08T02:05:44.335Z",
+    "itemId": "38db9c6a-077a-4143-ad77-69379ccc80fb",
+    "itemName": "Whisky & Cola Can",
+    "isWinner": true,
+    "quantity": 4
+  },
+  {
+    "timestamp": "2025-08-08T02:05:57.035Z",
+    "itemId": "97596be7-e773-40d3-b019-d598827cf267",
+    "itemName": "Whisky & Cola Can",
+    "isWinner": true,
+    "quantity": 2
+  },
+  {
+    "timestamp": "2025-08-08T02:06:15.010Z",
+    "itemId": "5cbee9bf-57a6-411a-9d24-60856a17978a",
+    "itemName": "Unlucky",
+    "isWinner": false,
+    "quantity": 0
+  },
+  {
+    "timestamp": "2025-08-08T02:06:54.810Z",
+    "itemId": "97596be7-e773-40d3-b019-d598827cf267",
+    "itemName": "Whisky & Cola Can",
+    "isWinner": true,
+    "quantity": 2
+  },
+  {
+    "timestamp": "2025-08-08T02:07:07.785Z",
+    "itemId": "38db9c6a-077a-4143-ad77-69379ccc80fb",
+    "itemName": "Whisky & Cola Can",
+    "isWinner": true,
+    "quantity": 4
+  },
+  {
+    "timestamp": "2025-08-08T02:07:20.548Z",
+    "itemId": "5cbee9bf-57a6-411a-9d24-60856a17978a",
+    "itemName": "Unlucky",
+    "isWinner": false,
+    "quantity": 0
+  },
+  {
+    "timestamp": "2025-08-08T02:07:32.856Z",
+    "itemId": "beecd58f-2a59-4941-9633-47e226ce1315",
+    "itemName": "2 x Whisky Cola Can",
+    "isWinner": true,
+    "quantity": 0
+  },
+  {
+    "timestamp": "2025-08-08T02:07:50.848Z",
+    "itemId": "38db9c6a-077a-4143-ad77-69379ccc80fb",
+    "itemName": "Whisky & Cola Can",
+    "isWinner": true,
+    "quantity": 4
+  },
+  {
+    "timestamp": "2025-08-08T02:08:03.702Z",
+    "itemId": "9f12ec48-8fe1-45ae-a3b9-446e87264712",
+    "itemName": "2 x Whisky & Cola Can",
+    "isWinner": true,
+    "quantity": 5
+  },
+  {
+    "timestamp": "2025-08-08T02:08:16.815Z",
+    "itemId": "9f12ec48-8fe1-45ae-a3b9-446e87264712",
+    "itemName": "2 x Whisky & Cola Can",
+    "isWinner": true,
+    "quantity": 5
+  },
+  {
+    "timestamp": "2025-08-08T02:08:29.814Z",
+    "itemId": "38db9c6a-077a-4143-ad77-69379ccc80fb",
+    "itemName": "Whisky & Cola Can",
+    "isWinner": true,
+    "quantity": 4
+  },
+  {
+    "timestamp": "2025-08-08T02:08:42.348Z",
+    "itemId": "beecd58f-2a59-4941-9633-47e226ce1315",
+    "itemName": "2 x Whisky Cola Can",
+    "isWinner": true,
+    "quantity": 0
+  },
+  {
+    "timestamp": "2025-08-08T02:08:55.873Z",
+    "itemId": "2b5567bd-3a74-4330-9459-b01b9e64edc4",
+    "itemName": "Try again",
+    "isWinner": false,
+    "quantity": 0
+  },
+  {
+    "timestamp": "2025-08-08T02:28:59.229Z",
+    "itemId": "38db9c6a-077a-4143-ad77-69379ccc80fb",
+    "itemName": "Whisky & Cola Can",
+    "isWinner": true,
+    "quantity": 4
+  },
+  {
+    "timestamp": "2025-08-08T02:46:31.268Z",
+    "itemId": "38db9c6a-077a-4143-ad77-69379ccc80fb",
+    "itemName": "Whisky & Cola Can",
+    "isWinner": true,
+    "quantity": 4
+  },
+  {
+    "timestamp": "2025-08-08T02:46:52.224Z",
+    "itemId": "97596be7-e773-40d3-b019-d598827cf267",
+    "itemName": "Whisky & Cola Can",
+    "isWinner": true,
+    "quantity": 2
+  },
+  {
+    "timestamp": "2025-08-08T03:27:56.005Z",
+    "itemId": "5cbee9bf-57a6-411a-9d24-60856a17978a",
+    "itemName": "Unlucky",
+    "isWinner": false,
+    "quantity": 0
   }
 ]

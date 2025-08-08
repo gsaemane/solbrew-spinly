@@ -114,8 +114,8 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
             label: item.name,
             backgroundColor: index % 2 === 0 ? '#000000' : '#EB1C24',
             image: imageElement,
-            imageRadius: 0.5,
-            imageScale: 0.8,
+            imageRadius: 0.6,
+            imageScale: 0.75,
             labelColor: index % 2 === 0 ? '#EB1C24' : '#000000',
           };
           console.log(`Wheel item: ${item.name}, ID: ${item.id}, IsWinner: ${item.isWinner}, Quantity: ${item.quantity}, Image: ${item.image}`);
@@ -416,9 +416,9 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
                 {/* Winner image */}
                 {items.find((item) => item.name === winner)?.image && (
                   <img
-                    src={!isSpecialItem? items.find((item) => item.name === winner)?.image : '/sad_face.jpg'}
+                  src={ items.find((item) => item.name === winner)?.image}
                     alt="Winner"
-                    className="w-32 h-32 object-cover mx-auto mb-4 rounded-full border-2 border-spot-red"
+                    className="w-32 h-32 object-cover mx-auto mb-4 "
                   />
                 )}
                 {/* Winner qty
