@@ -1,7 +1,7 @@
 [
   {
     "id": "38db9c6a-077a-4143-ad77-69379ccc80fb",
-    "name": "Whisky & Cola Can",
+    "name": "1x",
     "image": "/uploads/e305c8cb-909d-49db-84bc-1da253480733-1xwhisky-outline.png",
     "quantity": 4,
     "color": "#000000",
@@ -9,7 +9,7 @@
   },
   {
     "id": "9f12ec48-8fe1-45ae-a3b9-446e87264712",
-    "name": "2 x Whisky & Cola Can",
+    "name": "2x",
     "image": "/uploads/f912bc09-d1c5-4fba-9ccd-d580c0a54573-2xwhisky-outline.png",
     "quantity": 5,
     "color": "#000000",
@@ -17,34 +17,50 @@
   },
   {
     "id": "5cbee9bf-57a6-411a-9d24-60856a17978a",
-    "name": "Unlucky",
-    "image": "/uploads/e91fda0c-3f93-42ad-8a5d-b9bf6fb0fae5-example-5-item-0.svg",
+    "name": "3x",
+    "image": "/uploads/8415345a-6ff6-4ddb-9677-2e31232980c2-3x-whisky-cola.png",
     "color": "#000000",
-    "isWinner": false,
+    "isWinner": true,
     "quantity": 0
   },
   {
     "id": "97596be7-e773-40d3-b019-d598827cf267",
-    "name": "Whisky & Cola Can",
-    "image": "/uploads/1f160f3b-ebda-4da5-96e9-c88437f676e1-1xwhisky-outline.png",
+    "name": "Unlucky",
+    "image": "/uploads/6f2ae2d6-f4ff-4090-a79a-8fffe036ed8d-2299778_bad_sad_tired_unlucky_icon.png",
     "color": "#000000",
-    "isWinner": true,
+    "isWinner": false,
     "quantity": 2
   },
   {
     "id": "beecd58f-2a59-4941-9633-47e226ce1315",
-    "name": "2 x Whisky Cola Can",
-    "image": "/uploads/ed91f44f-f8ab-4f78-ab0f-a04b5639953c-2xwhisky-outline.png",
+    "name": "1x",
+    "image": "/uploads/9f67fc11-894c-4dbd-ae14-ed6ca38c2e68-1xwhisky-outline.png",
     "color": "#000000",
     "isWinner": true,
     "quantity": 0
   },
   {
     "id": "2b5567bd-3a74-4330-9459-b01b9e64edc4",
-    "name": "Try again",
-    "image": "/uploads/deedfe8e-6765-4d8f-b464-6b6e3367b38c-example-5-item-4.svg",
+    "name": "2x",
+    "image": "/uploads/5501675a-d74d-488a-9c68-bc06839faab9-2xwhisky-outline.png",
     "color": "#000000",
-    "isWinner": false,
+    "isWinner": true,
+    "quantity": 0
+  },
+  {
+    "id": "abd3c1ef-101d-4ae7-9de8-c7a72fd371ab",
+    "name": "3x",
+    "image": "/uploads/4025b584-864f-4a42-bec2-22c33e2b9783-3x-whisky-cola.png",
+    "color": "#000000",
+    "isWinner": true,
+    "quantity": 0
+  },
+  {
+    "id": "5495b199-4ab7-4dfe-abfd-45e1c61f3746",
+    "name": "Unlucky",
+    "image": "/uploads/e1f94c96-1972-4f92-b9b2-ddd21e771a19-2299778_bad_sad_tired_unlucky_icon.png",
+    "color": "#000000",
+    "isWinner": true,
     "quantity": 0
   }
 ]

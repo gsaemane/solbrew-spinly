@@ -14,7 +14,7 @@ interface LogEntry {
 export default function LogsPage() {
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
+
 
   useEffect(() => {
     const fetchLogs = async () => {

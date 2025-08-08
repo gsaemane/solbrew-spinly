@@ -31,6 +31,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const items = await request.json();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const ids = items.map((item: any) => item.id);
     const duplicates = ids.filter((id: string, index: number) => ids.indexOf(id) !== index);
     if (duplicates.length > 0) {

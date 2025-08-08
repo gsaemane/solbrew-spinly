@@ -108,6 +108,7 @@ const StockManager: React.FC = () => {
 
   return (
     <div className="mt-8">
+      {error && <p className="text-red-500">{error}</p>}
       <h2 className="text-4xl font-bold mb-4 " style={{ fontFamily: 'Lato' }}>
         Manage Wheel Items
       </h2>

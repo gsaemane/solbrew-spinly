@@ -27,7 +27,7 @@ export async function POST(request: Request) {
     try {
       const data = await fs.readFile(logsFile, 'utf-8');
       logs = JSON.parse(data);
-    } catch (err) {
+    } catch {
       // File doesn't exist yet, start with empty array
       logs = [];
     }

@@ -34,11 +34,11 @@ export default function Home() {
         {/* Crafted by logo */}
         <div>
         <Image
-            src="/crafted_by_logo.jpeg"
+            src="/crafted_by_logo.png"
             width={200}
             height={200}
             alt='logo'
-            className="fade-in-normal absolute top-5 right-5"
+            className="fade-in-normal absolute top-8 right-8"
         />
 
         </div>
