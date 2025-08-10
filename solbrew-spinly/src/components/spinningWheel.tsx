@@ -1,11 +1,10 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useMemo  } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Wheel, WheelInstance } from 'spin-wheel';
 import { Howl } from 'howler';
 import Confetti from 'react-confetti';
 import { StockItem } from '@/lib/types';
-
 
 interface SpinningWheelProps {
   items: StockItem[];
@@ -21,7 +20,7 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
   const [isButtonSpinning, setIsButtonSpinning] = useState(false);
   const [isCloseButtonEnabled, setIsCloseButtonEnabled] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
-  const [isImagesLoaded, setIsImagesLoaded] = useState(false);
+  const [isWheelReady, setIsWheelReady] = useState(false);
 
   // Memoize Howl instances
   const spinSound = useMemo(
@@ -61,19 +60,32 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
     []
   );
 
-
-  
-  // Preload Images
+  // Initialize wheel and preload images
   useEffect(() => {
-    console.log('Preload useEffect triggered, items:', items);
-    if (items.length === 0) {
-      console.log('No items, setting isImagesLoaded to true');
-      setIsImagesLoaded(true);
+    if (!wheelRef.current || items.length === 0) {
+      console.log('No wheelRef or items, setting isWheelReady to true');
+      setIsWheelReady(true);
       return;
     }
 
-    const loadImages = async () => {
+    const initializeWheel = async () => {
       try {
+        // Clear existing wheel content
+        if (wheelRef.current) {
+          wheelRef.current.innerHTML = ''; // Clear DOM to prevent duplicates
+        }
+
+        // Check for duplicate IDs
+        const ids = items.map((item) => item.id);
+        const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
+        if (duplicates.length > 0) {
+          console.error('Duplicate IDs in wheel items:', duplicates);
+          setError('Duplicate IDs detected: ' + duplicates.join(', '));
+          setIsWheelReady(true);
+          return;
+        }
+
+        // Preload images
         const imagePromises = items
           .filter((item) => item.image)
           .map(
@@ -87,37 +99,15 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
                 };
                 img.onerror = () => {
                   console.warn(`Failed to preload image: ${item.image}, proceeding`);
-                  resolve(); // Continue even if an image fails
+                  resolve();
                 };
               })
           );
 
         await Promise.all(imagePromises);
-        console.log('All images preloaded or failed, setting isImagesLoaded to true');
-        setIsImagesLoaded(true);
-      } catch (err) {
-        console.error('Image preloading error:', err);
-        setError('Some images failed to load, but proceeding');
-        setIsImagesLoaded(true);
-      }
-    };
+        console.log('All images preloaded or failed');
 
-    loadImages();
-  }, [items]);
-
-  // Initialize Wheel
-  useEffect(() => {
-    if (wheelRef.current && items.length > 0 && isImagesLoaded) {
-      try {
-        // Check for duplicate IDs
-        const ids = items.map(item => item.id);
-        const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
-        if (duplicates.length > 0) {
-          console.error('Duplicate IDs in wheel items:', duplicates);
-          setError('Duplicate IDs detected: ' + duplicates.join(', '));
-          return;
-        }
-
+        // Create wheel items
         const wheelItems = items.map((item, index) => {
           let imageElement: HTMLImageElement | undefined;
           if (item.image) {
@@ -125,9 +115,11 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
             imageElement.src = item.image;
             imageElement.height = 160;
             imageElement.width = 160;
-            console.log(`Wheel item image created: ${item.image}, complete: ${imageElement.complete}, naturalWidth: ${imageElement.naturalWidth}`);
+            console.log(
+              `Wheel item image created: ${item.image}, complete: ${imageElement.complete}, naturalWidth: ${imageElement.naturalWidth}`
+            );
           }
-          const wheelItem = {
+          return {
             label: item.name,
             backgroundColor: index % 2 === 0 ? '#000000' : '#EB1C24',
             image: imageElement,
@@ -135,13 +127,10 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
             imageScale: 0.75,
             labelColor: index % 2 === 0 ? '#EB1C24' : '#000000',
           };
-          console.log(`Wheel item: ${item.name}, ID: ${item.id}, IsWinner: ${item.isWinner}, Quantity: ${item.quantity}, Image: ${item.image}`);
-          return wheelItem;
         });
 
-        console.log('Wheel items created:', wheelItems);
-
-        const wheel = new Wheel(wheelRef.current, {
+        // Initialize wheel
+        const wheel = new Wheel(wheelRef.current!, {
           items: wheelItems,
           itemLabelRadius: 0.80,
           itemLabelRotation: 95,
@@ -167,15 +156,14 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
             setWinner(items[winningIndex].name);
             setIsButtonSpinning(false);
             const selectedItem = items[winningIndex];
-            // Log spin
             logSpin(selectedItem);
 
-            if (!items[winningIndex].isWinner) {
+            if (!selectedItem.isWinner) {
               defeatSound.play();
               setIsSpecialItem(true);
               setIsModalOpen(true);
               setShowConfetti(false);
-              setIsCloseButtonEnabled(true); // Enable Close for non-winners
+              setIsCloseButtonEnabled(true);
             } else {
               setIsSpecialItem(false);
               winSound.play();
@@ -188,97 +176,48 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
           },
         });
 
+        // Force initial draw
+        wheel.draw();
         setWheelInstance(wheel);
-
-        return () => {
-          wheel.remove();
-          spinSound.stop();
-          winSound.stop();
-          defeatSound.stop();
-        };
+        setIsWheelReady(true);
+        console.log('Wheel initialized and drawn');
       } catch (err) {
         console.error('Wheel initialization failed:', err);
         setError('Failed to initialize wheel: ' + (err as Error).message);
+        setIsWheelReady(true);
       }
-    } else {
-      console.log('No items, wheelRef not ready, or images not loaded:', {
-        items,
-        wheelRef: wheelRef.current,
-        isImagesLoaded,
-      });
-    }
-  }, [items, isImagesLoaded, spinSound,winSound,defeatSound, isButtonSpinning]);
+    };
 
-  // Force redraw after wheelInstance is set
-  useEffect(() => {
-    if (wheelInstance && items.length > 0 && isImagesLoaded) {
-      // Recreate wheel items to ensure fresh image instances
-      const wheelItems = items.map((item, index) => {
-        let imageElement: HTMLImageElement | undefined;
-        if (item.image) {
-          imageElement = new Image();
-          imageElement.src = item.image;
-          imageElement.height = 160;
-          imageElement.width = 160;
-          console.log(`Redraw wheel item image: ${item.image}, complete: ${imageElement.complete}, naturalWidth: ${imageElement.naturalWidth}`);
+    initializeWheel();
+
+    return () => {
+      if (wheelInstance) {
+        try {
+          wheelInstance.remove();
+          console.log('Wheel instance removed');
+        } catch (err) {
+          console.error('Error removing wheel instance:', err);
         }
-        const wheelItem = {
-          label: item.name,
-          backgroundColor: index % 2 === 0 ? '#111111' : '#f9363d',
-          image: imageElement,
-          imageRadius: 0.5,
-          imageScale: 0.8,
-          labelColor: index % 2 === 0 ? '#4f4f4f' : '#f7b9bb',
-          itemLabelStrokeColor: '#f96262',
-          itemLabelStrokeWidth:2
-        };
-        return wheelItem;
-      });
-
-      // Verify images are loaded before redraw
-      const imageLoadPromises = wheelItems
-        .filter(item => item.image)
-        .map(item =>
-          new Promise<void>((resolve) => {
-            if (item.image?.complete && item.image?.naturalWidth > 0) {
-              console.log(`Image ready for redraw: ${item.image.src}`);
-              resolve();
-            } else {
-              item.image!.onload = () => {
-                console.log(`Image loaded for redraw: ${item.image!.src}`);
-                resolve();
-              };
-              item.image!.onerror = () => {
-                console.error(`Image failed for redraw: ${item.image!.src}`);
-                resolve(); // Proceed to avoid blocking
-              };
-            }
-          })
-        );
-
-      Promise.all(imageLoadPromises).then(() => {
-        console.log('All images confirmed for redraw, updating wheel');
-        wheelInstance.items = wheelItems; // Reassign items
-        wheelInstance.draw(); // Force redraw
-      });
-
-      // Fallback redraw after 500ms
-      setTimeout(() => {
-        console.log('Fallback redraw triggered');
-        wheelInstance.items = wheelItems;
-        wheelInstance.draw();
-      }, 500);
-    }
-  }, [wheelInstance, items, isImagesLoaded]);
+      }
+      if (wheelRef.current) {
+        wheelRef.current.innerHTML = ''; // Clear DOM on cleanup
+      }
+      spinSound.stop();
+      winSound.stop();
+      defeatSound.stop();
+    };
+  }, [items]); // Removed unnecessary dependencies
 
   const spin = () => {
-    if (wheelInstance && items.length > 0) {
+    if (wheelInstance && isWheelReady && items.length > 0 && !isButtonSpinning) {
       setWinner(null);
       setIsModalOpen(false);
       setIsButtonSpinning(true);
       spinSound.play();
       const randomIndex = Math.floor(Math.random() * items.length);
       wheelInstance.spinToItem(randomIndex, 3000, true, 3, 1);
+    } else {
+      console.log('Spin blocked:', { wheelInstance, isWheelReady, itemsLength: items.length, isButtonSpinning });
     }
   };
 
@@ -298,7 +237,6 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
     }
   };
 
-  // Log spin to API
   const logSpin = async (item: StockItem) => {
     try {
       const response = await fetch('/api/logs/write', {
@@ -321,10 +259,10 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
   };
 
   return (
-    <div className="flex flex-col items-center ">
+    <div className="flex flex-col items-center">
       {error ? (
         <p className="text-red-500">{error}</p>
-      ) : !isImagesLoaded ? (
+      ) : !isWheelReady ? (
         <div className="flex flex-col items-center">
           <p className="text-2xl text-[#D5AE60]">Loading...</p>
           <div className="mt-2 h-8 w-8 animate-spin rounded-full border-4 border-[#D5AE60] border-t-transparent"></div>
@@ -348,17 +286,13 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
               <path d="M128,64a40,40,0,1,0,40,40A40,40,0,0,0,128,64Zm0,64a24,24,0,1,1,24-24A24,24,0,0,1,128,128Zm0-112a88.1,88.1,0,0,0-88,88c0,31.4,14.51,64.68,42,96.25a254.19,254.19,0,0,0,41.45,38.3,8,8,0,0,0,9.18,0A254.19,254.19,0,0,0,174,200.25c27.45-31.57,42-64.85,42-96.25A88.1,88.1,0,0,0,128,16Zm0,206c-16.53-13-72-60.75-72-118a72,72,0,0,1,144,0C200,161.23,144.53,209,128,222Z"></path>
             </svg>
           </div>
-          {/* Button Row */}
           <div className="space-x-4 inline">
-            {/* Spin Button */}
-            
             <button
               onClick={spin}
-              disabled={!wheelInstance}
-              className={`pulsate-bck-normal mt-4 border-2 border-amber-500 hover:bg-amber-600 shadow-[0px_20px_207px_10px_rgba(235,_0,_4,_0.2)]  text-white text-lg p-4 rounded-md  hover:cursor-pointer   ${
-                !wheelInstance ? 'opacity-50' : ''
-              } `}
-              
+              disabled={!isWheelReady || isButtonSpinning}
+              className={`pulsate-bck-normal mt-4 border-2 border-amber-500 hover:bg-amber-600 shadow-[0px_20px_207px_10px_rgba(235,_0,_4,_0.2)] text-white text-lg p-4 rounded-md hover:cursor-pointer ${
+                !isWheelReady || isButtonSpinning ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -376,13 +310,11 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
               </svg>
               Spin to Win
             </button>
-
-            {/* Reset Button */}
             <button
               onClick={reset}
-              disabled={!wheelInstance}
+              disabled={!isWheelReady}
               className={`mt-4 bg-red-500 text-red-200 text-lg p-4 border-2 border-red-600 shadow-[0px_20px_207px_10px_rgba(235,_0,_4,_0.2)] rounded-md hover:bg-red-600 hover:cursor-pointer ${
-                !wheelInstance ? 'opacity-50' : ''
+                !isWheelReady ? 'opacity-50 cursor-not-allowed' : ''
               }`}
             >
               <svg
@@ -395,16 +327,12 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
               >
                 <path d="M240,56v48a8,8,0,0,1-8,8H184a8,8,0,0,1,0-16H211.4L184.81,71.64l-.25-.24a80,80,0,1,0-1.67,114.78,8,8,0,0,1,11,11.63A95.44,95.44,0,0,1,128,224h-1.32A96,96,0,1,1,195.75,60L224,85.8V56a8,8,0,0,1,16,0Z"></path>
               </svg>
-              
+              Reset
             </button>
           </div>
-
           {isModalOpen && winner && (
             <div className="fixed inset-0 modal-overlay bg-spot-black bg-opacity-75 flex items-center justify-center z-50">
-              {showConfetti &&  (
-                isSpecialItem?
-                ''
-                :
+              {showConfetti && !isSpecialItem && (
                 <Confetti
                   width={window.innerWidth}
                   height={window.innerHeight}
@@ -414,35 +342,21 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
                   run={showConfetti}
                 />
               )}
-  
-              <div className="modal p-6  w-1/2 text-center" style={{ fontFamily: 'Lato' }}>
-              <h2 className="text-3xl font-bold mb-4 bg-red-500 w-3/4 m-auto -mt-12 p-3 text-white rounded border-2 border-red-600">{isSpecialItem ? 'Too Bad!' : 'Winner!'}</h2>
-                
-                
-                <span className="py-2">You got {isSpecialItem ? 'Nothing!' : ''}</span>
-
-                {isSpecialItem?
-                  <p className="text-6xl  text-red-600  mb-4">{winner}</p>
-                  :
-                  <p className="text-6xl font-bold  text-amber-600  mb-4">{winner}</p>
-                }
-                
-                {/* Winner image */}
+              <div className="modal p-6 w-1/2 text-center" style={{ fontFamily: 'Lato' }}>
+                <h2 className="text-3xl font-bold mb-4 bg-red-500 w-3/4 m-auto -mt-12 p-3 text-white rounded border-2 border-red-600">
+                  {isSpecialItem ? 'Too Bad!' : 'Winner!'}
+                </h2>
+                <span className="py-2">{isSpecialItem ? 'Nothing!' : ''}</span>
+                <p className={`text-6xl font-bold mb-4 ${isSpecialItem ? 'text-red-600' : 'text-amber-600'}`}>
+                  {winner}
+                </p>
                 {items.find((item) => item.name === winner)?.image && (
                   <img
-                  src={ items.find((item) => item.name === winner)?.image}
+                    src={items.find((item) => item.name === winner)?.image}
                     alt="Winner"
-                    className="w-32 h-32 object-cover mx-auto mb-4 "
+                    className="w-32 h-32 object-cover mx-auto mb-4"
                   />
                 )}
-                {/* Winner qty
-                {items.find((item) => item.name === winner)?.quantity && (
-                  <p className="text-xl py-4">
-                    {isSpecialItem? 'Sorry try your luck next time' : ''}
-                  </p>
-                  
-                )} */}
-                {/* Close Modal Button */}
                 <button
                   onClick={closeModal}
                   disabled={!isCloseButtonEnabled}

@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
 import { getStore } from '@netlify/blobs';
-//import fs from 'fs/promises';
-//import path from 'path';
+// import fs from 'fs/promises';
+// import path from 'path';
 
-//const logsFile = path.join(process.cwd(), 'public', 'logs.json');
+// const logsFile = path.join(process.cwd(), 'public', 'logs.json');
 
 // interface LogEntry {
 //   timestamp: string;
