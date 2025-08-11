@@ -228,6 +228,7 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
 
   //Using SpinTO
   const spin = () => {
+    
     if (wheelInstance && isWheelReady && items.length > 0 && !isButtonSpinning) {
       setWinner(null);
       setIsModalOpen(false);
@@ -247,16 +248,16 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
       const randomAngle = itemStartAngle + Math.random() * segmentAngle; // Random angle within the segment
       
       // Randomize number of revolutions (2 to 5)
-      const randomRevolutions = Math.floor(Math.random() * 4) + 2;
+      const randomRevolutions = 2;//Math.floor(Math.random() * 4) + 2;
       
       // Randomize direction: 1 (clockwise) or -1 (counterclockwise)
-      const randomDirection = Math.random() < 0.5 ? 1 : -1;
+      const randomDirection = 1;//Math.random() < 0.5 ? 1 : -1;
       
       // Calculate total rotation (target angle + full revolutions)
       const totalRotation = randomAngle + randomRevolutions * 360 * randomDirection;
       
       // Randomize duration (4500 to 5500 ms)
-      const randomDuration = 5000 + Math.floor(Math.random() * 1000 - 500);
+      const randomDuration = 5000;
       
       // Spin to the calculated angle
       wheelInstance.spinTo(totalRotation, randomDuration);
