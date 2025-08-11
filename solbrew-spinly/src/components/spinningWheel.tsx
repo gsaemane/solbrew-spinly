@@ -208,19 +208,71 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
     };
   }, [items]); // Removed unnecessary dependencies
 
+  // const spin = () => {
+  //   if (wheelInstance && isWheelReady && items.length > 0 && !isButtonSpinning) {
+  //     setWinner(null);
+  //     setIsModalOpen(false);
+  //     setIsButtonSpinning(true);
+  //     spinSound.play();
+  //     const randomIndex = Math.floor(Math.random() * items.length);
+  //     // Randomize number of revolutions (between 2 and 5)
+  //     const randomRevolutions = Math.floor(Math.random() * 4) + 2; // 2 to 5 revolutions
+  //      // Randomize direction: 1 (clockwise) or -1 (counterclockwise)
+  //     const randomDirection = Math.random() < 0.5 ? 1 : -1;
+  //     wheelInstance.spinToItem(randomIndex, 5000, true, randomRevolutions, randomDirection);
+  //   } else {
+  //     console.log('Spin blocked:', { wheelInstance, isWheelReady, itemsLength: items.length, isButtonSpinning });
+  //   }
+  // };
+
+
+  //Using SpinTO
   const spin = () => {
     if (wheelInstance && isWheelReady && items.length > 0 && !isButtonSpinning) {
       setWinner(null);
       setIsModalOpen(false);
       setIsButtonSpinning(true);
       spinSound.play();
+  
+      // Select a random item index
       const randomIndex = Math.floor(Math.random() * items.length);
-      wheelInstance.spinToItem(randomIndex, 3000, true, 3, 1);
+      
+      // Calculate the angle range for the selected item
+      const itemsCount = items.length;
+      const segmentAngle = 360 / itemsCount; // Angle per item
+      const itemStartAngle = randomIndex * segmentAngle; // Start angle of the item
+      const itemEndAngle = itemStartAngle + segmentAngle; // End angle of the item
+      
+      // Randomize the target angle within the item's segment (for added randomness)
+      const randomAngle = itemStartAngle + Math.random() * segmentAngle; // Random angle within the segment
+      
+      // Randomize number of revolutions (2 to 5)
+      const randomRevolutions = Math.floor(Math.random() * 4) + 2;
+      
+      // Randomize direction: 1 (clockwise) or -1 (counterclockwise)
+      const randomDirection = Math.random() < 0.5 ? 1 : -1;
+      
+      // Calculate total rotation (target angle + full revolutions)
+      const totalRotation = randomAngle + randomRevolutions * 360 * randomDirection;
+      
+      // Randomize duration (4500 to 5500 ms)
+      const randomDuration = 5000 + Math.floor(Math.random() * 1000 - 500);
+      
+      // Spin to the calculated angle
+      wheelInstance.spinTo(totalRotation, randomDuration);
+      
+      console.log('Spinning with:', {
+        randomIndex,
+        randomAngle,
+        totalRotation,
+        randomDuration,
+        randomRevolutions,
+        randomDirection,
+      });
     } else {
       console.log('Spin blocked:', { wheelInstance, isWheelReady, itemsLength: items.length, isButtonSpinning });
     }
   };
-
   const reset = () => {
     if (confirm('Reset the wheel? This will refresh the page.')) {
       window.location.reload();
