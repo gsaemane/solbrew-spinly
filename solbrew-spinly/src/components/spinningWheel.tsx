@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Wheel, WheelInstance } from 'spin-wheel';
+import { cubicOut } from 'easing-utils'; // Import cubicOut
 import { Howl } from 'howler';
 import Confetti from 'react-confetti';
 import { StockItem } from '@/lib/types';
@@ -228,39 +229,38 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
 
   //Using SpinTO
   const spin = () => {
-    
     if (wheelInstance && isWheelReady && items.length > 0 && !isButtonSpinning) {
       setWinner(null);
       setIsModalOpen(false);
       setIsButtonSpinning(true);
       spinSound.play();
-  
+
       // Select a random item index
       const randomIndex = Math.floor(Math.random() * items.length);
       
       // Calculate the angle range for the selected item
       const itemsCount = items.length;
-      const segmentAngle = 360 / itemsCount; // Angle per item
-      const itemStartAngle = randomIndex * segmentAngle; // Start angle of the item
-      const itemEndAngle = itemStartAngle + segmentAngle; // End angle of the item
+      const segmentAngle = 360 / itemsCount;
+      const itemStartAngle = randomIndex * segmentAngle;
+      const itemEndAngle = itemStartAngle + segmentAngle;
       
-      // Randomize the target angle within the item's segment (for added randomness)
-      const randomAngle = itemStartAngle + Math.random() * segmentAngle; // Random angle within the segment
+      // Randomize the target angle within the item's segment
+      const randomAngle = itemStartAngle + Math.random() * segmentAngle;
       
-      // Randomize number of revolutions (2 to 5)
-      const randomRevolutions = 2;//Math.floor(Math.random() * 4) + 2;
+      // Randomize number of revolutions (3 to 4 for moderate fast spin)
+      const randomRevolutions = Math.floor(Math.random() * 2) + 3; // 3 to 4 revolutions
       
       // Randomize direction: 1 (clockwise) or -1 (counterclockwise)
-      const randomDirection = 1;//Math.random() < 0.5 ? 1 : -1;
+      const randomDirection = Math.random() < 0.5 ? 1 : -1;
       
-      // Calculate total rotation (target angle + full revolutions)
+      // Calculate total rotation
       const totalRotation = randomAngle + randomRevolutions * 360 * randomDirection;
       
-      // Randomize duration (4500 to 5500 ms)
-      const randomDuration = 5000;
+      // Randomize duration (3500 to 4500 ms for moderate fast spin)
+      const randomDuration = 3500 + Math.floor(Math.random() * 1000); // 3.5 to 4.5 seconds
       
       // Spin to the calculated angle
-      wheelInstance.spinTo(totalRotation, randomDuration);
+      wheelInstance.spinTo(totalRotation, randomDuration,cubicOut);
       
       console.log('Spinning with:', {
         randomIndex,
@@ -270,6 +270,7 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
         randomRevolutions,
         randomDirection,
       });
+
     } else {
       console.log('Spin blocked:', { wheelInstance, isWheelReady, itemsLength: items.length, isButtonSpinning });
     }
