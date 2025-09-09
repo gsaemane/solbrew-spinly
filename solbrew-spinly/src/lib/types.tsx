@@ -2,6 +2,7 @@ export interface StockItem {
     id: string;
     name: string;
     quantity: number;
+    weight: number;
     color: string;
     image?: string;
     isWinner?:boolean;
