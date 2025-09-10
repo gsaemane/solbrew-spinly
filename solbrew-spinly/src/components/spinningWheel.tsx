@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Wheel, WheelInstance } from 'spin-wheel';
-import { cubicOut } from 'easing-utils'; // Import cubicOut
+ import { easeOutCubic } from 'easing-utils'; // Import cubicOut
 import { Howl } from 'howler';
 import Confetti from 'react-confetti';
 import { StockItem } from '@/lib/types';
@@ -11,7 +11,7 @@ interface SpinningWheelProps {
   items: StockItem[];
 }
 
-const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
+  const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
   const wheelRef = useRef<HTMLDivElement>(null);
   const [winner, setWinner] = useState<string | null>(null);
   const [isSpecialItem, setIsSpecialItem] = useState(false);
@@ -122,6 +122,7 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
           }
           return {
             label: item.name,
+            weight: item.weight || 1,
             backgroundColor: index % 2 === 0 ? '#000000' : '#EB1C24',
             image: imageElement,
             imageRadius: 0.6,
@@ -260,7 +261,7 @@ const SpinningWheel: React.FC<SpinningWheelProps> = ({ items }) => {
       const randomDuration = 3500 + Math.floor(Math.random() * 1000); // 3.5 to 4.5 seconds
       
       // Spin to the calculated angle
-      wheelInstance.spinTo(totalRotation, randomDuration,cubicOut);
+      wheelInstance.spinTo(totalRotation, randomDuration , easeOutCubic ); // Easing function can be added back if desired
       
       console.log('Spinning with:', {
         randomIndex,
