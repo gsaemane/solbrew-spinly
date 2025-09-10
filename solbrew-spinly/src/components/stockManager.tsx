@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 const StockManager: React.FC = () => {
   const [items, setItems] = useState<StockItem[]>([]);
-  const [newItem, setNewItem] = useState<StockItem>({ id: '', name: '', image: '', color: '#000000', isWinner: true, quantity: 0 });
+  const [newItem, setNewItem] = useState<StockItem>({ id: '', name: '', image: '', color: '#000000', isWinner: true, quantity: 0 ,weight:1});
   const [editingId, setEditingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -88,7 +88,7 @@ const StockManager: React.FC = () => {
       console.log('Generated new ID:', newId);
     }
     saveItems(updatedItems);
-    setNewItem({ id: '', name: '', image: '', color: '#000000', isWinner: true, quantity: 0 });
+    setNewItem({ id: '', name: '', image: '', color: '#000000', isWinner: true, quantity: 0,weight:1 });
   };
 
    // Delete item
@@ -128,6 +128,22 @@ const StockManager: React.FC = () => {
               className="border-none  text-spot-gold p-2 rounded active:border-0"
             />
             
+        </div>
+
+        {/* Weight Input */}
+        <div className="flex flex-col text-left border-2 border-spot-gold bg-[#000000] rounded p-2 my-2">
+          <label className="pl-2 font-semibold">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" className="inline mr-1" fill="#d5ae60" viewBox="0 0 256 256"><path d="M239.43,133l-32-80h0a8,8,0,0,0-9.16-4.84L136,62V40a8,8,0,0,0-16,0V65.58L54.26,80.19A8,8,0,0,0,48.57,85h0v.06L16.57,165a7.92,7.92,0,0,0-.57,3c0,23.31,24.54,32,40,32s40-8.69,40-32a7.92,7.92,0,0,0-.57-3L66.92,93.77,120,82V208H104a8,8,0,0,0,0,16h48a8,8,0,0,0,0-16H136V78.42L187,67.1,160.57,133a7.92,7.92,0,0,0-.57,3c0,23.31,24.54,32,40,32s40-8.69,40-32A7.92,7.92,0,0,0,239.43,133ZM56,184c-7.53,0-22.76-3.61-23.93-14.64L56,109.54l23.93,59.82C78.76,180.39,63.53,184,56,184Zm144-32c-7.53,0-22.76-3.61-23.93-14.64L200,77.54l23.93,59.82C222.76,148.39,207.53,152,200,152Z"></path></svg>
+            Weight
+          </label>
+          <input
+            type="number"
+            min={1}
+            value={newItem.weight}
+            onChange={e => setNewItem({ ...newItem, weight: parseInt(e.target.value) || 1 })}
+            className="border-none text-spot-gold p-2 rounded"
+            placeholder="Weight (default 1)"
+          />
         </div>
 
         {/* Input QTY */}
@@ -237,6 +253,7 @@ const StockManager: React.FC = () => {
               <p className="font-bold text-red-500 text-lg">{item.name}</p> 
               {/* <span className="p-1 mr-4 text-left w-auto bg-amber-100 text-xs text-amber-800 rounded font-bold">Quantity: {item.quantity}</span> */}
               <span className='mt-2 text-left p-1 bg-green-100 text-green-800 rounded text-xs font-bold'>Set to win: {item.isWinner? 'YES' : 'NO'}</span>
+              <span className='ml-2 p-1 bg-yellow-100 text-yellow-800 rounded text-xs font-bold'>Weight: {item.weight}</span>
             </span>
             <button
               onClick={() => handleEditItem(item.id)}

@@ -2,6 +2,7 @@ declare module 'spin-wheel' {
   export interface WheelInstance {
     spin(): void;
     remove(): void;
+    spinTo(rotation : number, duration : number, easingFunction?: (n: number) => number): void;
     spinToItem(itemIndex: number, duration: number, spinToCenter: boolean, numberOfRevolutions: number, direction: 1 | -1, easingFunction?: (n: number) => number): void;
     draw(): void;
     resize():void;
